@@ -1,0 +1,19 @@
+import numpy as np
+
+arr=np.array([[10,20,30],
+              [40,50,60],
+              [70,80,90]])
+
+print("Array:", arr)
+
+print("sum",arr.sum(),"Mean:", arr.mean(),"Max:", arr.max(), "Min:", arr.min())
+
+print("first row:", arr[0])
+print("first column", arr[:,0])
+print("sub-array", arr[0:2,1:3])
+
+print("element(1,2):", arr[1,2])
+
+print("flattened", arr.flatten())
+print("reshaped(1x9):", arr.reshape(1,9))
+print("resize(2x5):", np.resize(arr,(2,5)))
