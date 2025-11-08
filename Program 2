@@ -1,0 +1,53 @@
+import pandas as pd
+import numpy as np
+import matplotlib.pyplot as plt
+import seaborn as sns
+
+
+data={'Patient_ID':['P01','P02','P03','P04','P05','P06','P07','P08','P09','P10'],
+      'systolic':[120,135,140,128,999,118,210,90,45,125],
+      'dystolic':[80,88,90,82,85,np.nan,140,60,28,-10],
+      'heartrate':[71,75,78,74,68,95,np.nan,210,70,65]
+      }
+df=pd.DataFrame(data)
+print("---original dataset---")
+print(df)
+
+print("---summary statistics---")
+print(df.describe())
+
+bounds={
+    'systolic':(30,300),
+    'dystolic':(20,200),
+    'heartrate':(20,250)
+}
+
+for col,(low,high) in bounds.items():
+    anomalies=df[(df[col]<low)|(df[col]>high)]
+    if not anomalies.empty:
+        print(f"Anomalies detected in {col}:")
+        print(anomalies[['Patient_ID',col]])
+
+for col,(low,high) in bounds.items():
+    df.loc[(df[col]<low)|(df[col]>high)]=np.nan
+
+print("---Data after removing anomalies")
+print(df)
+
+def detect_outliers_iqr(series):
+    q1=series.quantile(0.25)
+    q3=series.quantile(0.75)
+    iqr=q3-q1
+    lower=q1-1.5*iqr
+    upper=q3+1.5*iqr
+    return series[(series<lower)|(series>upper)]
+
+for col in['systolic','dystolic','heartrate']:
+    outliers=detect_outliers_iqr(df[col].dropna())
+    if not outliers.empty:
+        print(f"outlier in {col}")
+        print(outliers)
+
+df_filled=df.fillna(df.median(numeric_only=True))
+print("dataset after filling missing values with median")
+print(df_filled)
