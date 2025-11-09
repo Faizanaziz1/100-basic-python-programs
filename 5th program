@@ -1,0 +1,16 @@
+str=input("enter the string :")
+
+y=str[::-1]
+
+print(y)
+
+------------------
+
+str=input("enter the string :")
+
+rev=""
+
+for i in range(len(str)-1,-1,-1):
+    rev+=str[i]
+
+print("rev string:", rev)
