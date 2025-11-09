@@ -1,0 +1,12 @@
+import numpy as np
+
+arr=np.array([5,2,np.nan,8,1])
+print("original array:", arr)
+
+print("sorted array:",np.sort(arr))
+
+arr[0],arr[-1]=arr[-1],arr[0]
+print("after swapping:", arr)
+
+arr_nan_replaced=np.nan_to_num(arr,nan=1)
+print("Nan replaced with 0:", arr_nan_replaced)
