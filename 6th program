@@ -1,0 +1,7 @@
+i=int(input("enter first number"))
+j=int(input("enter second number"))
+
+if i>j:
+    print(f"{i} is the largest number")
+else:
+    print(f"{j} is the largest number")
