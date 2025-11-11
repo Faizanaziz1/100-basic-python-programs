@@ -1,0 +1,7 @@
+str=input("enter the sentence:")
+
+words=str.split()
+
+count=len(words)
+
+print("No. of words in the sentences are",count)
