@@ -1,0 +1,86 @@
+#Level 1:  Descriptive Statistics, Indexing & ReIndexing, Renaming, Iteration, Sorting,  Dealing with Missing Data 
+# Importing Libraries
+import pandas as pd
+import numpy as np
+
+# Creating a DataFrame
+data = {
+    'Name': ['Alice', 'Bob', 'Charlie', 'David', 'Eve'],
+    'Age': [25, 30, 35, 40, np.nan],       # NaN = Missing Value
+    'Salary': [50000, 60000, 70000, 80000, 90000]
+}
+df = pd.DataFrame(data)
+
+print("Original DataFrame:")
+print(df)
+
+# 1. Descriptive Statistics
+print("\nDescriptive Statistics:")
+print(df.describe())
+
+# 2. Indexing & Reindexing
+df.index = ['a', 'b', 'c', 'd', 'e']
+print("\nAfter Reindexing:")
+print(df)
+
+# 3. Renaming Columns
+df.rename(columns={'Name': 'Employee Name', 'Salary': 'Annual Salary'}, inplace=True)
+print("\nAfter Renaming Columns:")
+print(df)
+
+# 4. Iteration (Display each row)
+print("\nIterating through rows:")
+for i, row in df.iterrows():
+    print(f"Index: {i}, Employee: {row['Employee Name']}, Age: {row['Age']}")
+
+# 5. Sorting
+print("\nSorted by Annual Salary (Descending):")
+print(df.sort_values(by='Annual Salary', ascending=False))
+
+# 6. Dealing with Missing Data (Fill NaN with mean and convert to int) - ✅ No Warning
+mean_age = df['Age'].mean()
+df['Age'] = df['Age'].fillna(mean_age)      # Fill missing value
+df['Age'] = df['Age'].round().astype(int)   # Convert to integer
+
+print("\nAfter Handling Missing Data (Filled NaN with Mean Age & Converted to Int):")
+print(df)
+
+#Level 2:  Statistical functions, Window functions, Aggregations 
+import pandas as pd      # Import pandas library for DataFrame operations
+import numpy as np       # Import numpy library for numerical operations
+
+# Creating a sample DataFrame
+data = {
+    'Employee': ['Alice', 'Bob', 'Charlie', 'David', 'Eva', 'Frank'],  # List of employee names
+    'Department': ['HR', 'IT', 'IT', 'HR', 'Finance', 'Finance'],      # Department of each employee
+    'Salary': [50000, 70000, 72000, 48000, 65000, 67000],             # Salary of each employee
+    'Experience': [5, 7, 8, 3, 10, 9]                                 # Years of experience
+}
+
+df = pd.DataFrame(data)    # Convert the dictionary into a Pandas DataFrame
+print("Original DataFrame:")
+print(df)                  # Display the original DataFrame
+
+# --- Statistical Functions ---
+print("\nStatistical Functions:")
+print("Mean Salary:", df['Salary'].mean())        # Calculate and print mean of the 'Salary' column
+print("Median Salary:", df['Salary'].median())    # Calculate and print median of the 'Salary' column
+print("Standard Deviation of Salary:", df['Salary'].std())  # Calculate and print standard deviation of 'Salary'
+print("Max Experience:", df['Experience'].max())  # Print maximum value in the 'Experience' column
+
+# --- Window Functions ---
+print("\nRolling Average of Salary (window=2):")
+df['Rolling_Avg_Salary'] = df['Salary'].rolling(window=2).mean()  # Compute rolling average of Salary with window size 2
+print(df[['Employee', 'Salary', 'Rolling_Avg_Salary']])  # Display Employee, Salary, and rolling average
+
+print("\nRank of Employees based on Salary:")
+df['Salary_Rank'] = df['Salary'].rank(ascending=False)  # Rank employees based on Salary (highest salary gets rank 1)
+print(df[['Employee', 'Salary', 'Salary_Rank']])        # Display Employee, Salary, and their rank
+
+# --- Aggregations ---
+print("\nAggregate Functions Grouped by Department:")
+agg_df = df.groupby('Department').agg({
+    'Salary': ['mean', 'sum'],       # Calculate mean and sum of Salary for each department
+    'Experience': ['mean', 'max']    # Calculate mean and max of Experience for each department
+})
+print(agg_df)  # Display the aggregated DataFrame
